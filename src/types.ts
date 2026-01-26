@@ -3,12 +3,6 @@ export enum OccasionType {
   NEW_YEAR = "Новый Год",
 }
 
-// export const OccasionType = {
-//   BIRTHDAY: "День Рождения",
-//   NEW_YEAR: "Новый Год",
-// } as const;
-
-// export type OccasionType = (typeof OccasionType)[keyof typeof OccasionType];
 
 export enum ToneType {
   OFFICIAL = "Официальный",
@@ -19,4 +13,4 @@ export enum ToneType {
   ADULT = "18+",
 }
 
-export type LanguageType = "Русский" | "Белорусский" | "English" | "Deutsch" | "Español" | "Français";
+export type LanguageType = "Русский" | "Кыргызча" | "English" | "Deutsch" | "Español" | "Français";
