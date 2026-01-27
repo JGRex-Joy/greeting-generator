@@ -4,10 +4,9 @@ import { useState, type FC } from "react";
 interface IResultSectionProps {
   content: string;
   isLoading: boolean;
-  imageUrl: string | null;
 }
 
-export const ResultSection: FC<IResultSectionProps> = ({ content, isLoading, imageUrl }) => {
+export const ResultSection: FC<IResultSectionProps> = ({ content, isLoading }) => {
   const [copied, setCopied] = useState<boolean>(false);
 
   const handleCopy = async (): Promise<void> => {
@@ -21,6 +20,7 @@ export const ResultSection: FC<IResultSectionProps> = ({ content, isLoading, ima
       console.error("Failed to copy text: ", error);
     }
   };
+  
   return (
     <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-xl shadow-purple-100/50 h-full min-h-[400px] flex flex-col relative overflow-hidden border border-purple-50">
       <div className="flex justify-between items-center mb-6">
@@ -44,13 +44,8 @@ export const ResultSection: FC<IResultSectionProps> = ({ content, isLoading, ima
             </div>
             <p className="text-gray-400 text-sm">ИИ придумывает магию...</p>
           </div>
-        ) : content || imageUrl ? (
+        ) : content ? (
           <div className="space-y-6 animate-in fade-in duration-500">
-            {imageUrl && (
-              <div className="rounded-2xl overflow-hidden shadow-md border border-purple-100">
-                <img src={imageUrl} alt="Generated Greeting Card" className="w-full h-auto object-cover" />
-              </div>
-            )}
             <div className="prose prose-purple max-w-none">
               <p className="text-gray-700 text-lg leading-relaxed whitespace-pre-wrap">{content}</p>
             </div>
