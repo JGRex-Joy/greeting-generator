@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { OccasionType, ToneType, type LanguageType } from "./types";
 
-import { generateGreeting, generateGreetingImage } from "./services/geminiService";
+import { generateGreeting } from "./services/geminiService";
 import { Header } from "./components/Header";
 import { AppTitle } from "./components/AppTitle";
 import { OccasionButton } from "./components/OccasionButton";
@@ -20,10 +20,8 @@ function App() {
   const [language, setLanguage] = useState<LanguageType>("Русский");
 
   const [generatedText, setGeneratedText] = useState<string>("");
-  const [generatedImageUrl, setGeneratedImageUrl] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-  const [isImageEnabled, setIsImageEnabled] = useState<boolean>(false);
 
   const handleGenerate = async (): Promise<void> => {
     if (!name.trim()) {
@@ -34,23 +32,10 @@ function App() {
     setError(null);
     setLoading(true);
     setGeneratedText("");
-    setGeneratedImageUrl(null);
 
     try {
-      const tasks: Promise<any>[] = [generateGreeting(occasion, name, age, interests, tone, language)];
-
-      if (isImageEnabled) {
-        tasks.push(generateGreetingImage(occasion, tone, interests));
-      }
-
-      const results = await Promise.all(tasks);
-
-      const textResult = results[0];
+      const textResult = await generateGreeting(occasion, name, age, interests, tone, language);
       setGeneratedText(textResult);
-
-      if (isImageEnabled && results[1]) {
-        setGeneratedImageUrl(results[1]);
-      }
     } catch (err: any) {
       setError(err.message || "Произошла ошибка");
     } finally {
@@ -111,10 +96,8 @@ function App() {
                 error={error}
                 language={language}
                 selectedTone={tone}
-                isImageEnabled={isImageEnabled}
                 setTone={setTone}
                 setLanguage={setLanguage}
-                setIsImageEnabled={setIsImageEnabled}
               />
 
               <GenerateButton isLoading={loading} onClick={handleGenerate}>
@@ -125,7 +108,7 @@ function App() {
 
             {/* Правая колонка */}
             <div className="lg:col-span-7 h-full">
-              <ResultSection content={generatedText} isLoading={loading} imageUrl={generatedImageUrl} />
+              <ResultSection content={generatedText} isLoading={loading} />
             </div>
           </div>
         </div>
