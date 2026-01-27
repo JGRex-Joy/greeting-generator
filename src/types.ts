@@ -10,6 +10,7 @@ export enum ToneType {
   HUMOROUS = "Юмористический",
   ROMANTIC = "Романтический",
   TOUCHING = "Трогательный",
+  ADULT = "Взрослый",
 }
 
 export type LanguageType = "Русский" | "Кыргызча" | "English" | "Deutsch" | "Español" | "Français";
